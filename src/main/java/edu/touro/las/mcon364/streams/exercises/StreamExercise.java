@@ -45,7 +45,7 @@ public class StreamExercise {
     public List<String> getAllStudentNames() {
         // TODO: Implement using streams
         // Hint: Use keySet().stream() and sorted()
-        return null;
+        return gradebook.keySet().stream().sorted().toList();
     }
     
     /**
@@ -55,7 +55,7 @@ public class StreamExercise {
      */
     public long countStudents() {
         // TODO: Implement using streams
-        return 0;
+        return gradebook.values().stream().count();
     }
 
     /**
@@ -79,7 +79,8 @@ public class StreamExercise {
         // 2. Wrap it in Optional.ofNullable(...)
         // 3. Use orElse(...) to return an empty list if null
 
-        return null; // Replace with your implementation
+        Optional<List<Integer>> grades = Optional.ofNullable(gradebook.get(studentName));
+        return grades.orElse(List.of());
     }
     // =========================================================================
     // PART 2: Grade Analysis
@@ -95,7 +96,8 @@ public class StreamExercise {
     public double calculateAverage(String studentName) {
         // TODO: Implement using streams
         // Hint: Use mapToInt() and average()
-        return 0.0;
+        Optional<Double> average = Optional.ofNullable(gradebook.get(studentName).stream().mapToInt(Integer::intValue).average());
+        return average.orElse(0.0);
     }
     
     /**
