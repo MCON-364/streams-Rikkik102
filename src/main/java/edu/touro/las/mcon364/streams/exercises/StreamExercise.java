@@ -97,8 +97,12 @@ public class StreamExercise {
     public double calculateAverage(String studentName) {
         // TODO: Implement using streams
         // Hint: Use mapToInt() and average()
-        Optional<Double> average = Optional.of(gradebook.get(studentName).stream().mapToInt(Integer::intValue).average().orElse(0.0));
-        return average.get();
+        return Optional.ofNullable(gradebook.get(studentName))
+                .orElseGet(Collections::emptyList)
+                .stream()
+                .mapToInt(Integer::intValue)
+                .average()
+                .orElse(0.0);
     }
     
     /**
@@ -236,11 +240,12 @@ public class StreamExercise {
     public String findTopPerformer() {
         // TODO: Implement using streams
         // Hint: Use max() with a comparator based on average
-        return gradebook.keySet().stream()
+       String answer = gradebook.keySet().stream()
                 .max(Comparator.comparingDouble(x ->  gradebook.get(x)
                         .stream()
                         .mapToInt(Integer::intValue)
-                        .average().getAsDouble())).toString();
+                        .average().getAsDouble())).orElse("");
+       return answer;
     }
 
     // =========================================================================
